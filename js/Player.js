@@ -1,4 +1,4 @@
-Class Player {  
+export class Player {  
   constructor(color, life, points, speed, x_axis, y_axis){
     this.color = color;
     this.life = life;
