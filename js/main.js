@@ -1,7 +1,8 @@
 window.onload = init;
+import Player from './Player.js';
 
 let canvas, ctx, w, h;
-let circle;
+let player;
 let keys = {};
 
 function init() {
@@ -13,8 +14,7 @@ function init() {
   
   ctx = canvas.getContext('2d');
   
-  circle = new Circle(w / 2, h / 2, 20);
-  
+  player = new Player("#5E8BDB",w / 2, h / 2);
   
   window.addEventListener("keydown", function(e) {
     keys[e.key] = true;
@@ -27,67 +27,48 @@ function init() {
     
   draw();
   
-  moveCircle();
+  movePlayer();
   //move();
 }
 
 function draw() {
   ctx.clearRect(0, 0, w, h);
-  circle.draw(ctx);
+  player.draw(ctx);
 }
 
-
-function moveCircle() {
+function movePlayer() {
   if (keys['ArrowUp'] && keys['ArrowRight']) {
-    circle.y -= 5 / Math.sqrt(2);
-    circle.x += 5 / Math.sqrt(2);
+    player.y_axis -= 5 / Math.sqrt(2);
+    player.x_axis += 5 / Math.sqrt(2);
   } else if (keys['ArrowUp'] && keys['ArrowLeft']) {
-    circle.y -= 5 / Math.sqrt(2);
-    circle.x -= 5 / Math.sqrt(2);
+    player.y_axis -= 5 / Math.sqrt(2);
+    player.x_axis -= 5 / Math.sqrt(2);
   } else if (keys['ArrowDown'] && keys['ArrowRight']) {
-    circle.y += 5 / Math.sqrt(2);
-    circle.x += 5 / Math.sqrt(2);
+    player.y_axis += 5 / Math.sqrt(2);
+    player.x_axis += 5 / Math.sqrt(2);
   } else if (keys['ArrowDown'] && keys['ArrowLeft']) {
-    circle.y += 5 / Math.sqrt(2);
-    circle.x -= 5 / Math.sqrt(2);
+    player.y_axis += 5 / Math.sqrt(2);
+    player.x_axis -= 5 / Math.sqrt(2);
   } else {
     if (keys['ArrowUp']) {
-      circle.y -= 5;
+      player.y_axis -= 5;
     }
     if (keys['ArrowDown']) {
-      circle.y += 5;
+      player.y_axis += 5;
     }
     if (keys['ArrowRight']) {
-      circle.x += 5;
+      player.x_axis += 5;
     }
     if (keys['ArrowLeft']) {
-      circle.x -= 5;
+      player.x_axis -= 5;
     }
   }
   draw();
-  requestAnimationFrame(moveCircle);
+  requestAnimationFrame(movePlayer);
 }
-
 
 function move() {
-
-  circle.y += 5;
+  player.y_axis += 5;
   draw();
   requestAnimationFrame(move);
-}
-
-class Circle {
-  constructor(x, y, radius) {
-    this.x = x;
-    this.y = y;
-    this.radius = radius;
-  }
-  
-  draw(ctx) {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = 'blue';
-    ctx.fill();
-    ctx.closePath();
-  }
 }
