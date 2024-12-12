@@ -18,11 +18,12 @@ function init() {
   
   ctx = canvas.getContext('2d');
   
-  players[0] = new Player("#5E8BDB",10, 10);
-  players[1] = new Player("#FF0000",15, 15);
+  players[0] = new Player("blue",10, 10);
+  players[1] = new Player("red",15, 15);
 
-  let obj1 = new Obstacle(100, 100, {x: 500, y: 500});
-  level1 = new Level([obj1],[]);
+  let obj1 = new Obstacle(100, 100, {x: 500, y: 500}, "#000000");
+  let obj2 = new Obstacle(100, 100, {x: 200, y: 200}, "#000000");
+  level1 = new Level([obj1,obj2],[]);
   
   window.addEventListener("keydown", function(e) {
     keys[e.key] = true;
