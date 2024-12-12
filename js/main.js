@@ -2,6 +2,7 @@ window.onload = init;
 
 let canvas, ctx, w, h;
 let circle;
+let keys = {};
 
 function init() {
   console.log("page chargée");
@@ -13,9 +14,21 @@ function init() {
   ctx = canvas.getContext('2d');
   
   circle = new Circle(w / 2, h / 2, 20);
+  
+  
+  window.addEventListener("keydown", function(e) {
+    keys[e.key] = true;
+    console.log(keys);
+  });
+  window.addEventListener("keyup", function(e) {
+      keys[e.key] = false;
+      console.log(keys);
+  });
+    
   draw();
   
-  window.addEventListener('keydown', moveCircle);
+  moveCircle();
+  //move();
 }
 
 function draw() {
@@ -23,22 +36,44 @@ function draw() {
   circle.draw(ctx);
 }
 
-function moveCircle(e) {
-  switch(e.key) {
-    case 'ArrowUp':
+
+function moveCircle() {
+  if (keys['ArrowUp'] && keys['ArrowRight']) {
+    circle.y -= 5 / Math.sqrt(2);
+    circle.x += 5 / Math.sqrt(2);
+  } else if (keys['ArrowUp'] && keys['ArrowLeft']) {
+    circle.y -= 5 / Math.sqrt(2);
+    circle.x -= 5 / Math.sqrt(2);
+  } else if (keys['ArrowDown'] && keys['ArrowRight']) {
+    circle.y += 5 / Math.sqrt(2);
+    circle.x += 5 / Math.sqrt(2);
+  } else if (keys['ArrowDown'] && keys['ArrowLeft']) {
+    circle.y += 5 / Math.sqrt(2);
+    circle.x -= 5 / Math.sqrt(2);
+  } else {
+    if (keys['ArrowUp']) {
       circle.y -= 5;
-      break;
-    case 'ArrowDown':
+    }
+    if (keys['ArrowDown']) {
       circle.y += 5;
-      break;
-    case 'ArrowLeft':
-      circle.x -= 5;
-      break;
-    case 'ArrowRight':
+    }
+    if (keys['ArrowRight']) {
       circle.x += 5;
-      break;
+    }
+    if (keys['ArrowLeft']) {
+      circle.x -= 5;
+    }
   }
   draw();
+  requestAnimationFrame(moveCircle);
+}
+
+
+function move() {
+
+  circle.y += 5;
+  draw();
+  requestAnimationFrame(move);
 }
 
 class Circle {
