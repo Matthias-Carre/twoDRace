@@ -1,8 +1,9 @@
-class Obstacle {
+export default class Obstacle {
     constructor(x, y, position) {
-      this.x = x; // Largeur de l'obstacle
-      this.y = y; // Hauteur de l'obstacle
-      this.position = position; // Position sous forme d'objet {x: ..., y: ...}
+      this.x = x; 
+      this.y = y; 
+      this.position = position; 
+      this.color = 'blue';
     }
 
     colisionPlayer(player) {
@@ -13,7 +14,8 @@ class Obstacle {
     }
 
     draw(ctx) {
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = 'this.color';
         ctx.fillRect(this.position.x, this.position.y, this.x, this.y);
+        console.log('drawObstacle');
     }
 }
