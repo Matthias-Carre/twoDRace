@@ -15,8 +15,15 @@ function init() {
   canvas = document.querySelector("#gameCanvas");
   w = canvas.width;
   h = canvas.height;
+
+  
+
   
   ctx = canvas.getContext('2d');
+
+  ctx.strokeStyle = 'black'; // Couleur du bord
+  ctx.lineWidth = 5; // Épaisseur du bord
+  ctx.strokeRect(0, 0, w, h);
   
   players[0] = new Player("blue",10, 10);
   players[1] = new Player("red",15, 15);
@@ -41,6 +48,7 @@ function init() {
 }
 
 function draw() {
+  
   ctx.clearRect(0, 0, w, h);
   players[0].draw(ctx);
   players[1].draw(ctx);

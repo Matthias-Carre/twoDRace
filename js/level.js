@@ -11,6 +11,5 @@ export default class Level {
         this.boost.forEach(boost => {
             boost.draw(ctx);
         });
-        console.log('drawObstacles');
     }
 }

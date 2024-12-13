@@ -19,6 +19,5 @@ export default class Player {
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
-    console.log('draw');
   }
 };
