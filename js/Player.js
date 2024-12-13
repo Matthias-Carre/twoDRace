@@ -13,7 +13,6 @@ export default class Player {
   
   draw(ctx) {
     ctx.fillStyle = this.color;
-
     ctx.beginPath();
     ctx.fillRect(this.x_axis, this.y_axis, 25, 25);
     ctx.fillStyle = this.color;

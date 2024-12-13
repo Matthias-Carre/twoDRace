@@ -1,24 +1,25 @@
 from PIL import Image, ImageDraw
 
-def create_checkerboard(filename, size, square_size):
+def pngToJson(path):
+    file = open('map.json', 'w')
+    im = Image.open(path)
+    width, height = im.size
+    pixels = im.load()
+    file.write('{ "width": ' + str(width) + ', "height": ' + str(height) + ', "data": [')
 
-    image = Image.new("RGB", (size, size), "white")
-    draw = ImageDraw.Draw(image)
+    for y in range(height):
+        for x in range(width):
+            r, g, b = pixels[x, y]
+            if r == 255 and g != 255 and b != 255:
+                file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#FF0000" },')
+            if r != 255 and g == 255 and b != 255:
+                file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#00FF00" },')
+            if r != 255 and g != 255 and b == 255:
+                file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#0000FF" },')
+    print(']}')
+    file.write(']}')
+    file.close()
 
 
-    for y in range(0, size, square_size):
-        for x in range(0, size, square_size):
-
-            if (x // square_size + y // square_size) % 2 == 0:
-                draw.rectangle([x, y, x + square_size - 1, y + square_size - 1], fill="black")
-
-
-    image.save(filename)
-
-
-
-create_checkerboard("grilles40.png", 800, 40)
-
-
-
+pngToJson('./maps/grilles2.png')
 #print('{ "x": 100, "y": 100, "position": { "x": 200, "y": 200 }, "color": "#000000" }')

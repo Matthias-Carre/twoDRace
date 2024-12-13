@@ -9,7 +9,7 @@ let players=[];
 let level1;
 let keys = {};
 
-function init() {
+async function init() {
   console.log("page chargée");
   
   canvas = document.querySelector("#gameCanvas");
@@ -21,16 +21,16 @@ function init() {
   
   ctx = canvas.getContext('2d');
 
-  ctx.strokeStyle = 'black'; // Couleur du bord
-  ctx.lineWidth = 5; // Épaisseur du bord
+  ctx.strokeStyle = 'black'; 
+  ctx.lineWidth = 5; 
   ctx.strokeRect(0, 0, w, h);
   
   players[0] = new Player("blue",10, 10);
   players[1] = new Player("red",15, 15);
-
-  let obj1 = new Obstacle(100, 100, {x: 500, y: 500}, "#000000");
-  let obj2 = new Obstacle(100, 100, {x: 200, y: 200}, "#000000");
-  level1 = new Level([obj1,obj2],[]);
+  
+  level1 = new Level(await loadLevel(),[]);
+  //console.log("les obstacles ici",level1.obstacles);
+  
   
   window.addEventListener("keydown", function(e) {
     keys[e.key] = true;
@@ -90,3 +90,18 @@ function movePlayer() {
   requestAnimationFrame(movePlayer);
 }
 
+async function loadLevel() {
+  let obstacles = [];
+  try {
+    const response = await fetch('./maps/map.json');
+    const data = await response.json();
+    console.log(data);
+    console.log(data.data);
+    data.data.forEach(obstacle => {
+      obstacles.push(new Obstacle(obstacle.x, obstacle.y, obstacle.position, obstacle.color));
+    });
+  } catch (error) {
+    console.error('Erreur lors de la récupération du JSON:', error);
+  }
+  return obstacles;
+}
