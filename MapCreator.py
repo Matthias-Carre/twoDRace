@@ -21,5 +21,5 @@ def pngToJson(path):
     file.close()
 
 
-pngToJson('./maps/grilles2.png')
+pngToJson('./maps/grille3.png')
 #print('{ "x": 100, "y": 100, "position": { "x": 200, "y": 200 }, "color": "#000000" }')

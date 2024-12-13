@@ -93,7 +93,7 @@ function movePlayer() {
 async function loadLevel() {
   let obstacles = [];
   try {
-    const response = await fetch('./maps/map.json');
+    const response = await fetch('./maps/map3.json');
     const data = await response.json();
     console.log(data);
     console.log(data.data);
