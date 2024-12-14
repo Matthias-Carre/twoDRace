@@ -6,18 +6,41 @@ export default class Player {
     //this.speed = speed;
     this.x_axis = x_axis;
     this.y_axis = y_axis;
+    this.previous_x_axis = x_axis;
+    this.previous_y_axis = y_axis;
     this.width = width;
     this.height = height;
+    this.isMoving = true;
   }
   
-  set_x_axis(posX){this.x_axis = posX;}
-  set_y_axis(posY){this.y_axis = posY;}
+  stopMoving() {
+    this.isMoving = false;
+  }
+
+  setXaxis(posX){
+    this.previous_x_axis = this.x_axis;
+    this.x_axis = posX;
+  }
+  setYaxis(posY){
+    this.previous_y_axis = this.y_axis;
+    this.y_axis = posY;
+  }
+  getXPrevus(){
+    return this.previous_x_axis;
+  }
+  getYPrevus(){
+    return this.previous_y_axis;
+  }
+  rollback(){
+    this.x_axis = this.previous_x_axis;
+    this.y_axis = this.previous_y_axis;
+  }
   
   collidesWith(otherPlayer) {
     if(
       (this.x_axis + this.width) >= otherPlayer.x_axis && 
       this.x_axis <= (otherPlayer.x_axis + otherPlayer.width) &&
-      this.y_axis + (this.height >= otherPlayer.y_axis) &&
+      (this.y_axis + this.height) >= otherPlayer.y_axis &&
       this.y_axis <= (otherPlayer.y_axis + otherPlayer.height)
     )
     {

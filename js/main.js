@@ -1,7 +1,7 @@
-window.onload = init;
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
 import Level from './Level.js';
+window.onload = init;
 
 let canvas, ctx, w, h;
 let players=[];
@@ -49,91 +49,55 @@ async function init() {
 
 function draw() {
   ctx.clearRect(0, 0, w, h);
+  
+    // Collision entre les joueurs
+  players.forEach(playerA => {
+    players.forEach(playerB => {
+      if (playerA !== playerB && playerA.collidesWith(playerB)) {
+        console.log("clision entre p1: " + playerA.color + "\t et p2: " + playerB.color);
+        playerA.rollback();
+      }
+    });
+  });
+
   players[0].draw(ctx);
   players[1].draw(ctx);
   players[2].draw(ctx);
   players[3].draw(ctx);
   level1.draw(ctx);
 
-  // Collision entre les joueurs
-  players.forEach(playerA => {
-    players.forEach(playerB => {
-      if (playerA !== playerB && playerA.collidesWith(playerB)) {
-        console.log("clision entre p1"+playerA.color+" et p2"+playerB.color);
-      }
-    });
-  });
-  /*
-  players.forEach(player => {
-    if (players.length >= 1 && player.collidesWith(players[0])) {
-      players[0].color = 'cyan';
-    }
-    else {
-      players[0].color = 'red';
-    }
-  });
 
-  players.forEach(player => {
-    if (players.length > 2 && player.collidesWith(players[1])) {
-      players[1].color = 'orange';
-    }
-    else {
-      players[1].color = 'lightblue';
-    }
-  });
-
-  players.forEach(player => {
-    if (players.length > 3 && player.collidesWith(players[2])) {
-      players[2].color = 'magenta';
-    }
-    else {
-      players[2].color = 'lightgreen';
-    }
-  });
-
-  players.forEach(player => { 
-    if (players.length > 4 && player.collidesWith(players[3])) {
-      players[3].color = 'purple';
-    }
-    else {
-      players[3].color = 'yellow';
-    }
-  });
-
-  // Collision entre un joueur et un obstacle
-  /*level1.getObstacles().forEach(obstacle => {
-    if (obstacle.colisionPlayer(players[0])) {
-      console.log('Player1 est entré en collision avec l’obstacle');
-    }
-  });*/
   
 }
 
 function playersMovement(haut, bas, gauche, droite,player) {
   if (keys[haut] && keys[droite]) {
-    player.y_axis -= 5 / Math.sqrt(2);
-    player.x_axis += 5 / Math.sqrt(2);
+    player.setXaxis(player.x_axis + 5 / Math.sqrt(2));
+    player.setYaxis(player.y_axis - 5 / Math.sqrt(2));
   } else if (keys[haut] && keys[gauche]) {
-    player.y_axis -= 5 / Math.sqrt(2);
-    player.x_axis -= 5 / Math.sqrt(2);
+    player.setYaxis(player.y_axis - 5 / Math.sqrt(2));
+    player.setXaxis(player.x_axis - 5 / Math.sqrt(2));
   } else if (keys[bas] && keys[droite]) {
-    player.y_axis += 5 / Math.sqrt(2);
-    player.x_axis += 5 / Math.sqrt(2);
+    player.setYaxis(player.y_axis + 5 / Math.sqrt(2));
+    player.setXaxis(player.x_axis + 5 / Math.sqrt(2));
+
   } else if (keys[bas] && keys[gauche]) {
-    player.y_axis += 5 / Math.sqrt(2);
-    player.x_axis -= 5 / Math.sqrt(2);
+    player.setYaxis(player.y_axis + 5 / Math.sqrt(2));
+    player.setXaxis(player.x_axis - 5 / Math.sqrt(2));
+
   } else {
     if (keys[haut]) {
-      player.y_axis -= 5;
+      player.setYaxis(player.y_axis - 5);
     }
     if (keys[bas]) {
-      player.y_axis += 5;
+      player.setYaxis(player.y_axis + 5);
+
     }
     if (keys[droite]) {
-      player.x_axis += 5;
+      player.setXaxis(player.x_axis + 5);
     }
     if (keys[gauche]) {
-      player.x_axis -= 5;
+      player.setXaxis(player.x_axis - 5);
     }
   }
 }
