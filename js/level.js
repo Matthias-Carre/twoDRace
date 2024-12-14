@@ -5,7 +5,6 @@ export default class Level {
   }
 
   draw(ctx) {
-    console.log("les obstacles:", this.obstacles.length);
     this.obstacles.forEach(obstacle => {
       obstacle.draw(ctx);
     });

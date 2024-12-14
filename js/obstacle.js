@@ -5,6 +5,8 @@ export default class Obstacle {
       this.position = position; 
       this.color = color;
       this.move = false;
+      this.path = [{...position}, {x:x+500,y:y+20}]; //[0] orginie [1] destination
+      this.direction = 1; //1 vers la destiantion 0 vers l'origine
     }
 
     colisionPlayer(player) {
@@ -18,6 +20,20 @@ export default class Obstacle {
     }
 
     draw(ctx) {
+        if (this.move) {
+            console.log("moving",this.move,"x",this.position.x,"ax",this.path[0].x,"bx",this.path[1].x);
+            if (this.direction) {
+                this.position.x += 5;
+                if (this.position.x >= this.path[1].x) {
+                    this.direction = 0;
+                }
+            } else {
+                this.position.x -= 10 ;
+                if (this.position.x <= this.path[0].x) {
+                    this.direction = 1;
+                }
+            }
+        }
         ctx.fillStyle = this.color;
         ctx.fillRect(this.position.x, this.position.y, this.x, this.y);
         ctx.fill();

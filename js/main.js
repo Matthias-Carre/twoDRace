@@ -17,8 +17,6 @@ async function init() {
   h = canvas.height;
 
   
-
-  
   ctx = canvas.getContext('2d');
 
   ctx.strokeStyle = 'black'; 
@@ -28,9 +26,11 @@ async function init() {
   players[0] = new Player("blue",10, 10);
   players[1] = new Player("red",15, 15);
   
-  level1 = new Level(await loadLevel(),[]);
+  //level1 = new Level(await loadLevel(),[]);
   //console.log("les obstacles ici",level1.obstacles);
-  
+  let obs1 = new Obstacle(100, 100, {x:100,y:100},"red");
+  obs1.setMove(true);
+  level1 = new Level([obs1],[]);
   
   window.addEventListener("keydown", function(e) {
     keys[e.key] = true;
