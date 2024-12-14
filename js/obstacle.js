@@ -4,6 +4,7 @@ export default class Obstacle {
       this.y = y; 
       this.position = position; 
       this.color = color;
+      this.move = false;
     }
 
     colisionPlayer(player) {
@@ -11,6 +12,9 @@ export default class Obstacle {
             return false;
         }
         return true;
+    }
+    setMove(canMove) {
+        this.move = canMove;
     }
 
     draw(ctx) {
