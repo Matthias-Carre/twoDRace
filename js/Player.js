@@ -1,6 +1,8 @@
 export default class Player {  
   constructor(color, x_axis, y_axis, width, height) {
     this.color = color;
+
+    this.orignie = {x:x_axis,y:y_axis};
     //this.life = life;
     //this.points = points;
     //this.speed = speed;
@@ -11,8 +13,12 @@ export default class Player {
     this.width = width;
     this.height = height;
     this.isMoving = true;
+    this.isCloinding = false;
   }
-  
+  setOriginie(x,y){
+    this.orignie.x = x;
+    this.orignie.y = y;
+  }
   stopMoving() {
     this.isMoving = false;
   }

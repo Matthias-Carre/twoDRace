@@ -4,43 +4,43 @@ import Level from './Level.js';
 window.onload = init;
 
 let canvas, ctx, w, h;
-let players=[];
+let players = [];
 let level1;
 let keys = {};
 
 async function init() {
   console.log("page chargée");
-  
+
   canvas = document.querySelector("#gameCanvas");
   w = canvas.width;
   h = canvas.height;
 
   ctx = canvas.getContext('2d');
 
-  ctx.strokeStyle = 'black'; 
-  ctx.lineWidth = 5; 
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 5;
   ctx.strokeRect(0, 0, w, h);
-  
-  players[0] = new Player("red",10, 10, 25, 25);
-  players[1] = new Player("blue",40, 10, 25, 25);
-  players[2] = new Player("lightgreen",70, 10, 25, 25);
-  players[3] = new Player("yellow",100, 10, 25, 25);
-  
-  level1 = new Level(await loadLevel(),[]);
+
+  players[0] = new Player("red", 10, 45, 25, 25);
+  players[1] = new Player("blue", 10, 75, 25, 25);
+  players[2] = new Player("lightgreen", 10, 100, 25, 25);
+  players[3] = new Player("yellow", 10, 125, 25, 25);
+
+  level1 = new Level(await loadLevel(), []);
   //console.log("les obstacles ici",level1.obstacles);
-  //let obs1 = new Obstacle(100, 100, {x:100,y:100},"red");
+  //let obs1 = new Obstacle(100, 100, { x: 100, y: 100 }, "red");
   //obs1.setMove(true);
-  //level1 = new Level([obs1],[]);
-  
-  window.addEventListener("keydown", function(e) {
+  //level1 = new Level([obs1], []);
+
+  window.addEventListener("keydown", function (e) {
     keys[e.key] = true;
     console.log(keys);
   });
-  window.addEventListener("keyup", function(e) {
-      keys[e.key] = false;
-      console.log(keys);
+  window.addEventListener("keyup", function (e) {
+    keys[e.key] = false;
+    console.log(keys);
   });
-    
+
   draw();
 
   movePlayer();
@@ -49,21 +49,88 @@ async function init() {
 
 function draw() {
   ctx.clearRect(0, 0, w, h);
-  
-    // Collision entre les joueurs
+
+  // Collision entre les joueurs
   players.forEach(playerA => {
     players.forEach(playerB => {
+      //colision au bourd du canvas
+      if (playerA.x_axis < 0) {
+        playerA.setXaxis(0);
+      }else if (playerA.x_axis > w - playerA.width) {
+        playerA.setXaxis(w - playerA.width);
+      }
+      if (playerA.y_axis < 0) {
+        playerA.setYaxis(0);
+      }else if (playerA.y_axis > h - playerA.height) {
+        playerA.setYaxis(h - playerA.height);
+      }
       if (playerA !== playerB && playerA.collidesWith(playerB)) {
         console.log("clision entre p1: " + playerA.color + "\t et p2: " + playerB.color);
-        playerA.rollback();
+        //playerA.rollback();
+        if (Math.abs(playerA.x_axis - playerB.x_axis) > Math.abs(playerA.y_axis - playerB.y_axis)) {
+
+          if (playerA.x_axis > playerB.x_axis) {
+            console.log("ca pousse");
+            //playerB.isCloinding = true;
+            playerB.setXaxis(playerB.x_axis - 5);
+            playerA.setXaxis(playerA.x_axis + 5);
+          } else if (playerA.x_axis < playerB.x_axis) {
+            console.log("ca pousse");
+            //playerB.isCloinding = true;
+            playerB.setXaxis(playerB.x_axis + 5);
+            playerA.setXaxis(playerA.x_axis - 5);
+          }
+        } else {
+          if (playerA.y_axis > playerB.y_axis) {
+            console.log("ca pousse");
+            //playerB.isCloinding = true;
+            playerB.setYaxis(playerB.y_axis - 5);
+            playerA.setYaxis(playerA.y_axis + 5);
+          } else if (playerA.y_axis < playerB.y_axis) {
+            console.log("ca pousse");
+            //playerB.isCloinding = true;
+            playerB.setYaxis(playerB.y_axis + 5);
+            playerA.setYaxis(playerA.y_axis - 5);
+          }
+        }
+      } else {
+        //player.rollback();
       }
     });
   });
   level1.obstacles.forEach(obstacle => {
     players.forEach(player => {
+      console.log("Couleur =", obstacle.color);
       if (obstacle.colisionPlayer(player)) {
+        if (obstacle.color === '#FF0000'){
+          player.setXaxis(player.orignie.x);
+          player.setYaxis(player.orignie.y);
+          return;
+        }
+        //on peut check la direct pour pousser comme il faut tkt
         console.log("clision entre p1: " + player.color + "\t et obstacle");
-        player.rollback();
+        if (obstacle.move) {
+          if(obstacle.UpDown){
+            if (obstacle.position.y > player.y_axis) {
+              player.isCloinding = true;
+              player.setYaxis(player.y_axis - 6);
+            } else {
+              player.isCloinding = true;
+              player.setYaxis(player.y_axis + 6);
+            }
+          }else{
+            if (obstacle.position.x > player.x_axis) {
+              player.isCloinding = true;
+              player.setXaxis(player.x_axis - 6);
+            } else {
+              player.isCloinding = true;
+              player.setXaxis(player.x_axis + 6);
+            }
+          }
+          
+        } else {
+          player.rollback();
+        }
       }
     });
   });
@@ -75,10 +142,14 @@ function draw() {
   level1.draw(ctx);
 
 
-  
+
 }
 
-function playersMovement(haut, bas, gauche, droite,player) {
+function playersMovement(haut, bas, gauche, droite, player) {
+  if (player.isCloinding) {
+    player.isCloinding = false;
+    return;
+  }
   if (keys[haut] && keys[droite]) {
     player.setXaxis(player.x_axis + 5 / Math.sqrt(2));
     player.setYaxis(player.y_axis - 5 / Math.sqrt(2));
@@ -111,8 +182,10 @@ function playersMovement(haut, bas, gauche, droite,player) {
 }
 
 function movePlayer() {
-  playersMovement('ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',players[0]);
-  playersMovement('z', 's', 'q', 'd',players[1]);
+  playersMovement('ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', players[0]);
+  playersMovement('w', 's', 'a', 'd', players[1]);
+  playersMovement('i', 'k', 'j', 'l', players[2]);
+  playersMovement('t', 'g', 'f', 'h', players[3]);
   draw();
   requestAnimationFrame(movePlayer);
 }
