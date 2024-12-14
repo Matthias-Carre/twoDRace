@@ -56,6 +56,14 @@ function draw() {
   level1.draw(ctx);
 
   // Collision entre les joueurs
+  players.forEach(playerA => {
+    players.forEach(playerB => {
+      if (playerA !== playerB && playerA.collidesWith(playerB)) {
+        console.log("clision entre p1"+playerA.color+" et p2"+playerB.color);
+      }
+    });
+  });
+  /*
   players.forEach(player => {
     if (players.length >= 1 && player.collidesWith(players[0])) {
       players[0].color = 'cyan';

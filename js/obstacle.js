@@ -24,7 +24,7 @@ export default class Obstacle {
 
     draw(ctx) {
         if (this.move) {
-            console.log("moving",this.move,"x",this.position.x,"ax",this.path[0].x,"bx",this.path[1].x);
+            //console.log("moving",this.move,"x",this.position.x,"ax",this.path[0].x,"bx",this.path[1].x);
             if (this.direction) {
                 this.position.x += 5;
                 if (this.position.x >= this.path[1].x) {
