@@ -26,11 +26,11 @@ async function init() {
   players[2] = new Player("lightgreen",70, 10, 25, 25);
   players[3] = new Player("yellow",100, 10, 25, 25);
   
-  //level1 = new Level(await loadLevel(),[]);
+  level1 = new Level(await loadLevel(),[]);
   //console.log("les obstacles ici",level1.obstacles);
-  let obs1 = new Obstacle(100, 100, {x:100,y:100},"red");
-  obs1.setMove(true);
-  level1 = new Level([obs1],[]);
+  //let obs1 = new Obstacle(100, 100, {x:100,y:100},"red");
+  //obs1.setMove(true);
+  //level1 = new Level([obs1],[]);
   
   window.addEventListener("keydown", function(e) {
     keys[e.key] = true;
@@ -56,6 +56,14 @@ function draw() {
       if (playerA !== playerB && playerA.collidesWith(playerB)) {
         console.log("clision entre p1: " + playerA.color + "\t et p2: " + playerB.color);
         playerA.rollback();
+      }
+    });
+  });
+  level1.obstacles.forEach(obstacle => {
+    players.forEach(player => {
+      if (obstacle.colisionPlayer(player)) {
+        console.log("clision entre p1: " + player.color + "\t et obstacle");
+        player.rollback();
       }
     });
   });
