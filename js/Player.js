@@ -16,9 +16,9 @@ export default class Player {
   collidesWith(otherPlayer) {
     if(
       (this.x_axis + this.width) >= otherPlayer.x_axis && 
-      this.x_axis < (otherPlayer.x_axis + otherPlayer.width) &&
+      this.x_axis <= (otherPlayer.x_axis + otherPlayer.width) &&
       this.y_axis + (this.height >= otherPlayer.y_axis) &&
-      this.y_axis < (otherPlayer.y_axis + otherPlayer.height)
+      this.y_axis <= (otherPlayer.y_axis + otherPlayer.height)
     )
     {
       return true;
