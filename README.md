@@ -66,7 +66,7 @@ la classe Level contient :
 - une méthodes draw() qui sert afficher les obstacles sur le canvas
 
 ## Main
-### fonction
+### Fonctions
 `init()` initialise le canvas au chargement de la page.\
 `startGame()` démarre la partie lorsque le formulaire permettant de choisir le nombre de joueur et le langue du clavier est envoyé.\
 `countdown()` lance un décompte avant le début de chaque niveau, les joueurs ne peuvent pas bouger jusqu'a la fin de ce dernier.\
