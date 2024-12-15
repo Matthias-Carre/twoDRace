@@ -83,7 +83,7 @@ async function startGame(){
 
   let BoostSpeed = new Obstacle(100, 100, { x: 100, y: 100 }, "#00FFFF");
   BoostSpeed.isBonnus = true;
-  level = new Level(await loadLevel(18), []);
+  level = new Level(await loadLevel(20), []);
 
   numLevel = 1; 
   draw();
@@ -421,8 +421,18 @@ async function loadLevel(num) {
       obstacles.push(mur3);
       return obstacles;
     case 19:
-      
+      mur1 = new Obstacle(80, 40 , { x: 0, y: 600 }, "#FF0000");
+      mur1.setMove(true, { x: 0, y: 780 });
+      obstacles.push(mur1);
+      return obstacles;
+    case 20:
+      mur1 = new Obstacle(80, 80, { x: 0, y: 240 }, "#FF0000");
+      mur1.setMove(false, { x: 760, y: 240 });
+      obstacles.push(mur1);
+      return obstacles;
     }
+   
+
   return obstacles;
 }
 
@@ -430,6 +440,11 @@ async function nextLevel(){
   
   arrivee = [];
   numLevel++;
+  if(numLevel > 20){
+    pause = true;
+    alert("Vous avez fini le jeu");
+    return;
+  }
   console.log("niveau suivant",numLevel);
   //reset la possition de tous pour eviter de spazn syr la fin bolos
   //on le fait deux fois pour vider le buffer 

@@ -32,6 +32,6 @@ def pngToJson(n):
 
 
 
-pngToJson(18)
+pngToJson(20)
 
 #print('{ "x": 100, "y": 100, "position": { "x": 200, "y": 200 }, "color": "#000000" }')
