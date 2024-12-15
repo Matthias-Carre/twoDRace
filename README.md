@@ -11,7 +11,7 @@ Auteurs: Matthias Carré & Anthony Vasta
 Joueur 1 = ↑ ← ↓ →\
 Joueur 2 = Z Q S D / W A S D\
 Joueur 3 = I J K L\
-Joueur 4 = T G F H
+Joueur 4 = T F G H
 
 ## Code couleur
 
