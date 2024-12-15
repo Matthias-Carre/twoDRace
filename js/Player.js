@@ -15,8 +15,8 @@ export default class Player {
     this.reverse = false;
   }
   setOriginie(x,y){
-    this.orignie.x = x;
-    this.orignie.y = y;
+    this.origine.x = x;
+    this.origine.y = y;
   }
   stopMoving() {
     this.isMoving = false;
@@ -40,6 +40,13 @@ export default class Player {
     this.x_axis = this.previous_x_axis;
     this.y_axis = this.previous_y_axis;
   }
+
+  resetPos(){
+    this.previous_x_axis = this.origine.x;
+    this.previous_y_axis = this.origine.y;
+    this.x_axis = this.origine.x;
+    this.y_axis = this.origine.y;
+  }
   
   collidesWith(otherPlayer) {
     if(
@@ -54,7 +61,6 @@ export default class Player {
   }
   
   draw(ctx) {
-    console.log('drawing player',this.color,'at',this.x_axis,this.y_axis);
     ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.fillRect(this.x_axis, this.y_axis, this.width, this.height);

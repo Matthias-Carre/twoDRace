@@ -10,6 +10,9 @@ let numLevel = 1;
 let keys = {};
 let countdown;
 
+let pause=false;
+let arrivee = [];
+
 let isQwerty = true;
 
 function init() {
@@ -37,7 +40,6 @@ function init() {
 
   window.addEventListener("keydown", function (e) {
     keys[e.key] = true;
-    console.log(keys);
   });
   window.addEventListener("keyup", function (e) {
     keys[e.key] = false;
@@ -47,36 +49,33 @@ function init() {
 
 async function startGame(){
   let nbjoueur = document.querySelector('input[name="numPlayers"]:checked').value;
-  console.log("nombre de joueur",nbjoueur);
  
   //gestion du type de clavier
   if(document.querySelector('input[name="keyLayout"]:checked').value == 1){
     isQwerty = false;
   }
-  console.log("nombre de joueur",nbjoueur,"taille ",players.length);
   if(nbjoueur >= 1){
-    players[0] = new Player("red", 10, 45, 25, 25);
-    console.log("joueur 1 crée");
+    players[0] = new Player("red", 10, 5, 25, 25);
   }
   if(nbjoueur >= 2){
-    players[1] = new Player("blue", 10, 75, 25, 25);
-    console.log("joueur 2 crée");
+    players[1] = new Player("blue", 10, 40, 25, 25);
   }
   if(nbjoueur >= 3){
-    players[2] = new Player("lightgreen", 10, 100, 25, 25);
-    console.log("joueur 3 crée");
+    players[2] = new Player("lightgreen", 10, 75, 25, 25);
+
   }
   if(nbjoueur >= 4){
-    players[3] = new Player("yellow", 10, 125, 25, 25);
-    console.log("joueur 4 crée");
+    players[3] = new Player("yellow", 10, 110, 25, 25);
+
   }
   document.querySelector('#gameForm').style.display = 'none';
+  document.querySelector('#layout').style.display = 'none';
   document.querySelector('#gameCanvas').hidden = false;
   //level = new Level(await loadLevel(1), []);
 
   let BoostSpeed = new Obstacle(100, 100, { x: 100, y: 100 }, "#00FFFF");
   BoostSpeed.isBonnus = true;
-  level = new Level([BoostSpeed], []);
+  level = new Level(await loadLevel(1), []);
 
   numLevel = 1; 
   draw();
@@ -98,15 +97,18 @@ function decompte(dcpt)
 
 
 function draw() {
-  ctx.clearRect(0, 0, w, h);
 
-  // Colision entre les joueurs
+  ctx.clearRect(0, 0, w, h);
+  
   playersCollision();
   obstacleCollision();
 
   level.draw(ctx);
 
   players.forEach(player => {
+    if (arrivee.includes(player)) {
+      return;
+    }
     player.draw(ctx);
   });
   
@@ -115,7 +117,13 @@ function draw() {
 
 function playersCollision() {
   players.forEach(playerA => {
+    if (arrivee.includes(playerA)) {
+      return;
+    }
     players.forEach(playerB => {
+      if (arrivee.includes(playerB)) {
+        return;
+      }
       //colision au bourd du canvas
       if (playerA.x_axis < 0) {
         playerA.setXaxis(0);
@@ -128,29 +136,24 @@ function playersCollision() {
         playerA.setYaxis(h - playerA.height);
       }
       if (playerA !== playerB && playerA.collidesWith(playerB)) {
-        console.log("clision entre p1: " + playerA.color + "\t et p2: " + playerB.color);
         //playerA.rollback();
         if (Math.abs(playerA.x_axis - playerB.x_axis) > Math.abs(playerA.y_axis - playerB.y_axis)) {
 
           if (playerA.x_axis > playerB.x_axis) {
-            console.log("ca pousse");
             //playerB.isCloinding = true;
             playerB.setXaxis(playerB.x_axis - 5);
             playerA.setXaxis(playerA.x_axis + 5);
           } else if (playerA.x_axis < playerB.x_axis) {
-            console.log("ca pousse");
             //playerB.isCloinding = true;
             playerB.setXaxis(playerB.x_axis + 5);
             playerA.setXaxis(playerA.x_axis - 5);
           }
         } else {
           if (playerA.y_axis > playerB.y_axis) {
-            console.log("ca pousse");
             //playerB.isCloinding = true;
             playerB.setYaxis(playerB.y_axis - 5);
             playerA.setYaxis(playerA.y_axis + 5);
           } else if (playerA.y_axis < playerB.y_axis) {
-            console.log("ca pousse");
             //playerB.isCloinding = true;
             playerB.setYaxis(playerB.y_axis + 5);
             playerA.setYaxis(playerA.y_axis - 5);
@@ -165,6 +168,9 @@ function playersCollision() {
 function obstacleCollision() {
   level.obstacles.forEach(obstacle => {
     players.forEach(player => {
+      if (arrivee.includes(player)) {
+        return;
+      }
       if (obstacle.colisionPlayer(player)) {
         if(obstacle.color=='#FFFFFF'){return;}
         if (obstacle.color === '#FF0000'){ // rouge
@@ -186,7 +192,6 @@ function obstacleCollision() {
           obstacle.color = '#FFFFFF';
           players.forEach(p => {
             if(p !== player){
-              console.log("player" + p.color+ "reverse");
               p.reverse = true;
             }
           }); 
@@ -198,7 +203,17 @@ function obstacleCollision() {
         }
 
         if (obstacle.color === '#00FF00'){ // vert
-          nextLevel();
+          arrivee.push(player);
+          console.log(player.points + " est arrivé");
+          player.points += 5 - arrivee.length ;
+          console.log("point de " + player.color + " : " + player.points);
+          document.getElementById('score'+player.color).innerHTML = player.points;
+
+          if(arrivee.length === players.length){
+            //ICI MATTHIAS LA ICI COUCOU SALUT
+            nextLevel();
+          }
+          //nextLevel();
         }
 
         if(obstacle.color === '#FFFF00'){ // jaune
@@ -210,7 +225,6 @@ function obstacleCollision() {
           return;
         }
         //on peut check la direct pour pousser comme il faut tkt
-        console.log("clision entre p1: " + player.color + "\t et obstacle");
         if (obstacle.move) {
           if(obstacle.UpDown){
             if (obstacle.position.y > player.y_axis) {
@@ -289,6 +303,10 @@ function playersMovement(haut, bas, gauche, droite, player) {
 }
 
 function movePlayer() {
+  if(pause){
+    pause = false;
+    return;
+  }
   if(players.length >= 1){
     playersMovement('ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', players[0]);
   }
@@ -329,16 +347,16 @@ async function loadLevel(num) {
 
 async function nextLevel(){
   
+  arrivee = [];
   numLevel++;
   console.log("niveau suivant",numLevel);
   //reset la possition de tous pour eviter de spazn syr la fin bolos
   //on le fait deux fois pour vider le buffer 
-  players[0].setXaxis(10);
-  players[0].setYaxis(45);
-  players[0].setXaxis(10);
-  players[0].setYaxis(45);
-
-
+  players.forEach(p => {
+    p.resetPos();
+  });
+  pause = true;
   level = new Level(await loadLevel(numLevel), []);
+  decompte(3);
   draw();
 }

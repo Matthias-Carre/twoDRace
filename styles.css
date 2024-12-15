@@ -1,4 +1,47 @@
-#gameCanvas {
-    border: 2px solid black; /* Cadre noir de 2 pixels */
-    border-radius: 10px; /* Coins arrondis (optionnel) */
-}
+/* filepath: /d:/Master/js/twoDRace/styles.css */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  #gameCanvas {
+    border: 2px solid #000; /* Ajoutez cette ligne pour la bordure */
+    margin-top: 20px;
+  }
+  header, main {
+    text-align: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  form label {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  form div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  #Scores {
+    display: flex;
+    flex-direction: row; /* Assurez-vous que les éléments sont alignés en ligne */
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  #scores > div {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+  }

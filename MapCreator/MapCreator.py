@@ -1,8 +1,8 @@
 from PIL import Image, ImageDraw
 
-def pngToJson(path):
-    file = open('map4.json', 'w')
-    im = Image.open(path)
+def pngToJson(n):
+    file = open('map'+str(n)+'.json', 'w')
+    im = Image.open('grille'+str(n)+'.png')
     width, height = im.size
     pixels = im.load()
     file.write('{ "width": ' + str(width) + ', "height": ' + str(height) + ', "data": [')
@@ -21,5 +21,5 @@ def pngToJson(path):
     file.close()
 
 
-pngToJson('grille4.png')
+pngToJson(2)
 #print('{ "x": 100, "y": 100, "position": { "x": 200, "y": 200 }, "color": "#000000" }')
