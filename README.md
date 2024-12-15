@@ -6,29 +6,28 @@ Auteurs: Matthias Carré & Anthony Vasta
 # Gameplays
 
 ## Commandes
+
 ### Déplacement :
-Joueur 1 = ↑ ← ↓ →
-    
-Joueur 2 = Z Q S D / W A S D
+    Joueur 1 = ↑ ← ↓ →
+    Joueur 2 = Z Q S D / W A S D
+    Joueur 3 = I K J I
+    Joueur 4 = T G F H
 
-Joueur 3 = I K J I
+## Code couleur
 
-Joueur 4 = T G F H
-
-### Code couleur bloc :
+### Bloc :
    Vert : Ligne d'arrivée
-   
    Rouge : Retour au point de départ
 
-### Code couleur Bonus/Malus :
+### Bonus/Malus :
    Cyan : Commandes inversées pour les autres joueurs
-   
    Jaune : Bonus de vitesse
-   
    Violet : Ralenti les autres joueurs
-
+   
 # Problèmes & Solutions
+
 ## Collision
+
 ### Objet mouvant
 Lorsque que 2 objets mouvent se rencontre avec un joueur au milieu, le joueur traverse les objets mouvants, idem lorsque le joueur se fait bloquer contre un mur par un de ces objets.
 
