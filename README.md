@@ -41,7 +41,12 @@ Le fichier `Main.js` est un peu trop charger en fonction, il pourait être allé
 # Conception
 Pour la conception du jeu, nous avons créée 3 classes, Players, Levels et Obstacles qui ont chacune leurs propre fichier.
 Nous avons utiliser `export default class "NomClass"` pour permettre l'utilisation de ces dernières dans les autres fichiers.\
+
 Nous aurions souhaité faire de l'héritage en créant une classe Objets, puis en faire dériver les classes Obstacles et Bonus/Malus mais l'idée s'est perdu car nous avons oublié.
+
+## Génération de niveaux
+Les niveaux sont dessinés sur paint3D sur une grille 20px*20px et transformés en `.json` via un script python.\
+Ils sont ensuite générés dans le jeu à partir de ce `.json`.
 
 ## Classe Players
 la classe Players contient tous les attributs des joueurs
