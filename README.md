@@ -8,32 +8,24 @@ Auteurs: Matthias Carré & Anthony Vasta
 ## Commandes
 
 ### Déplacement :
-   Joueur 1 = ↑ ← ↓ →
-   
-   Joueur 2 = Z Q S D / W A S D
-   
-   Joueur 3 = I K J I
-   
-   Joueur 4 = T G F H
+Joueur 1 = ↑ ← ↓ →\
+Joueur 2 = Z Q S D / W A S D\
+Joueur 3 = I K J I\
+Joueur 4 = T G F H
 
 ## Code couleur
 
 ### Bloc :
-   Vert : Ligne d'arrivée
-   
+   Vert : Ligne d'arrivée\
    Rouge : Retour au point de départ
 
 ### Bonus/Malus :
-   Cyan : Commandes inversées pour les autres joueurs
-   
-   Jaune : Bonus de vitesse
-   
-   Violet : Ralenti les autres joueurs
-   
+   Cyan : Commandes inversées pour les autres joueurs\
+   Jaune : Bonus de vitesse\
+   Violet : Ralenti les autres joueurs\
+
 # Problèmes & Solutions
-
 ## Collision
-
 ### Objet mouvant
 Lorsque que 2 objets mouvent se rencontre avec un joueur au milieu, le joueur traverse les objets mouvants, idem lorsque le joueur se fait bloquer contre un mur par un de ces objets.
 
@@ -42,9 +34,8 @@ Le fonction permettant de faire le décompte au début de chaque niveau ne fonct
 
 # Conception
 Pour la conception du jeu, nous avons créée 3 classes, Players, Levels et Obstacles qui ont chacune leurs propre fichier.
-
-Nous avons utiliser `export default class "NomClass"` pour permettre l'utilisation de ces dernières dans les autres fichiers.
-
+Nous avons utiliser `export default class "NomClass"` pour permettre l'utilisation de ces dernières dans les autres fichiers.\
+Nous aurions souhaité faire de l'héritage en créant une classe Objets, puis en faire dériver les classes Obstacles et Bonus/Malus mais l'idée s'est perdu car nous avons oublié.
 ## Classe Players
 la classe Players contient :
 
@@ -69,5 +60,4 @@ la classe Level contient :
 - tous les attributs des Level
 - une méthodes draw() qui sert afficher les obstacles sur le canvas
 
-    - tous les attributs des Level
-    - une méthodes draw() qui sert afficher les obstacles sur le canvas
+## Main
