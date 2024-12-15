@@ -67,13 +67,13 @@ la classe Level contient tous les attributs des Level\
 Le fichier `Main.js` est un peu trop charger en fonction, il pourait être allégé en optimisant la répartition des fonctions dans d'autres fichier.
 
 ### Fonctions
-`init()` initialise le canvas au chargement de la page.\
-`startGame()` démarre la partie lorsque le formulaire permettant de choisir le nombre de joueur et le langue du clavier est envoyé.\
-`countdown()` lance un décompte avant le début de chaque niveau, les joueurs ne peuvent pas bouger jusqu'a la fin de ce dernier.\
-`draw()` afficher les joueurs et les obstacles sur le canvas.\
-`playersCollision()` gère les collision entre les joueurs.\
-`obstalcleCollision()` gère les collision entre les obstacles et les joueurs.\
-`playersMovement()` défini les mouvements des joueurs.\
-`movePlayer()` attributs les commandes aux joueurs.\
-`loadLevel()` charge les différents niveaux.\
-`nextLevel()` charge le niveau suivant.
+- `init()` initialise le canvas au chargement de la page.\
+- `startGame()` démarre la partie lorsque le formulaire permettant de choisir le nombre de joueur et le langue du clavier est envoyé.\
+- `countdown()` lance un décompte avant le début de chaque niveau, les joueurs ne peuvent pas bouger jusqu'a la fin de ce dernier.\
+- `draw()` afficher les joueurs et les obstacles sur le canvas.\
+- `playersCollision()` gère les collision entre les joueurs.\
+- `obstalcleCollision()` gère les collision entre les obstacles et les joueurs.\
+- `playersMovement()` défini les mouvements des joueurs.\
+- `movePlayer()` attributs les commandes aux joueurs.\
+- `loadLevel()` charge les différents niveaux.\
+- `nextLevel()` charge le niveau suivant.
