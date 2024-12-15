@@ -47,7 +47,9 @@ export default class Player {
     this.x_axis = this.origine.x;
     this.y_axis = this.origine.y;
   }
-  
+  setPlayerSpeed(speed){
+    this.speed = speed;
+  }
   collidesWith(otherPlayer) {
     if(
       (this.x_axis + this.width) >= otherPlayer.x_axis && 

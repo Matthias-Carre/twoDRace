@@ -16,10 +16,26 @@ def pngToJson(n):
                 file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#00FF00" },')
             if r != 255 and g != 255 and b == 255:
                 file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#0000FF" },')
+            if r == 0 and g == 0 and b == 0:
+                file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#000000" },')
+            if r==255 and g==255 and b!=255:
+                file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#FFFF00" },')
+            if r!=255 and g==255 and b==255:
+                file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#00FFFF" },')
+            if r==255 and g!=255 and b==255:
+                file.write('{ "x": ' + str(40) + ', "y": ' + str(40) + ', "position": { "x": ' + str(x*40) + ', "y": ' + str(y*40) + ' }, "color": "#FF00FF" },')
+
+    
     print(']}')
     file.write(']}')
     file.close()
 
 
+pngToJson(1)
 pngToJson(2)
+pngToJson(3)
+pngToJson(4)
+pngToJson(5)
+pngToJson(6)
+pngToJson(7)
 #print('{ "x": 100, "y": 100, "position": { "x": 200, "y": 200 }, "color": "#000000" }')

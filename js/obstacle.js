@@ -5,7 +5,7 @@ export default class Obstacle {
       this.position = position; 
       this.color = color;
       this.move = false;
-      this.path = [{...position}, {x:x+500,y:y+20}]; //[0] orginie [1] destination
+      this.path = [{...position}, {...position}]; //[0] orginie [1] destination
       this.direction = 1; //1 vers la destiantion 0 vers l'origine
       this.UpDown = false; //vrai si haut pas faux si droite gauche
 
@@ -20,9 +20,10 @@ export default class Obstacle {
         );
       }
 
-    setMove(isUpDown) {
+    setMove(isUpDown, path) {
         this.move = true;
         this.UpDown = isUpDown;
+        this.path[1] = path;
     }
 
     draw(ctx) {

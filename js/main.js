@@ -31,6 +31,14 @@ function init() {
   ctx.strokeRect(0, 0, w, h);
   players[0] = new Player("red", 10, 45, 25, 25);
 
+
+
+  canvas.addEventListener('mousemove', function(event) {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log(`Mouse position: x=${x}, y=${y}`);
+  });
   //level1 = new Level(await loadLevel(), []);
   //console.log("les obstacles ici",level1.obstacles);
   //let obs1 = new Obstacle(100, 100, { x: 100, y: 100 }, "red");
@@ -75,7 +83,7 @@ async function startGame(){
 
   let BoostSpeed = new Obstacle(100, 100, { x: 100, y: 100 }, "#00FFFF");
   BoostSpeed.isBonnus = true;
-  level = new Level(await loadLevel(1), []);
+  level = new Level(await loadLevel(7), []);
 
   numLevel = 1; 
   draw();
@@ -303,6 +311,7 @@ function playersMovement(haut, bas, gauche, droite, player) {
 }
 
 function movePlayer() {
+  console.log
   if(pause){
     pause = false;
     return;
@@ -341,6 +350,27 @@ async function loadLevel(num) {
     });
   } catch (error) {
     console.error('Erreur lors de la récupération du JSON:', error);
+  }
+  let mur1;
+  let mur2;
+  switch(num){
+    
+    case 6:
+      mur1 = new Obstacle(120, 50, { x: 0, y: 100 }, "#000000");
+      mur1.setMove(true, { x: 200, y: 300 });
+      obstacles.push(mur1);
+      mur2 = new Obstacle(25, 85, { x: 250 , y: 475 }, "#000000");
+      mur2.setMove(false, { x: 400, y: 400 });
+      obstacles.push(mur2);
+      return obstacles;
+    case 7:
+      mur1 = new Obstacle(320,25,{x:80,y:450},"#000000");
+      mur1.setMove(true,{x:320,y:800});
+      obstacles.push(mur1);
+      mur2 = new Obstacle(215,25,{x:430,y:180},"#000000");
+      mur2.setMove(true,{x:645,y:460});
+      obstacles.push(mur2);
+
   }
   return obstacles;
 }
