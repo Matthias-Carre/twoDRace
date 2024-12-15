@@ -1,6 +1,6 @@
 # Jeu JavaScript
-Projet de jeu JavaScript pour l'UE d'introduction au JavaScript Master 1 Informatique Université Côte d'Azur
-Auteurs: Matthias Carré & Anthony Vasta
+[^1]Projet de jeu JavaScript pour l'UE d'introduction au JavaScript Master 1 Informatique Université Côte d'Azur
+[^2]Auteurs: Matthias Carré & Anthony Vasta
 
 # Gameplays
 
