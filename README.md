@@ -60,7 +60,8 @@ la classe Obstacles contient tous les attributs des Obstacles
 
 ## Classe Level
 la classe Level contient tous les attributs des Level\
-une méthodes draw() qui sert afficher les obstacles sur le canvas
+### Méthodes :
+- `draw()` qui sert afficher les obstacles sur le canvas
 
 ## Main
 Le fichier `Main.js` est un peu trop charger en fonction, il pourait être allégé en optimisant la répartition des fonctions dans d'autres fichier.
