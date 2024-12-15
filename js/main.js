@@ -31,14 +31,6 @@ function init() {
   ctx.strokeRect(0, 0, w, h);
   players[0] = new Player("red", 10, 45, 25, 25);
 
-
-
-  canvas.addEventListener('mousemove', function(event) {
-    const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    console.log(`Mouse position: x=${x}, y=${y}`);
-  });
   //level1 = new Level(await loadLevel(), []);
   //console.log("les obstacles ici",level1.obstacles);
   //let obs1 = new Obstacle(100, 100, { x: 100, y: 100 }, "red");
@@ -212,13 +204,11 @@ function obstacleCollision() {
 
         if (obstacle.color === '#00FF00'){ // vert
           arrivee.push(player);
-          console.log(player.points + " est arrivé");
           player.points += 5 - arrivee.length ;
-          console.log("point de " + player.color + " : " + player.points);
           document.getElementById('score'+player.color).innerHTML = player.points;
 
           if(arrivee.length === players.length){
-            //ICI MATTHIAS LA ICI COUCOU SALUT
+
             nextLevel();
           }
           //nextLevel();
@@ -268,7 +258,6 @@ function playersMovement(haut, bas, gauche, droite, player) {
     return;
   }
   if(player.reverse){
-    console.log(player.color,' ',haut,bas);
     let tmp = haut;
     haut = bas;
     bas = tmp;
@@ -276,7 +265,6 @@ function playersMovement(haut, bas, gauche, droite, player) {
     tmp = gauche;
     gauche = droite;
     droite = tmp;
-    console.log(haut,bas);
 
   }
   if (keys[haut] && keys[droite]) {
@@ -311,7 +299,6 @@ function playersMovement(haut, bas, gauche, droite, player) {
 }
 
 function movePlayer() {
-  console.log
   if(pause){
     pause = false;
     return;
@@ -341,10 +328,7 @@ async function loadLevel(num) {
   try {
     let path = './maps/map'+num+'.json';
     const response = await fetch(path);
-    console.log("path",path);
     const data = await response.json();
-    console.log(data);
-    console.log(data.data);
     data.data.forEach(obstacle => {
       obstacles.push(new Obstacle(obstacle.x, obstacle.y, obstacle.position, obstacle.color));
     });
@@ -442,7 +426,15 @@ async function nextLevel(){
   numLevel++;
   if(numLevel > 20){
     pause = true;
-    alert("Vous avez fini le jeu");
+    let gg="";
+    let max = 0;
+    players.forEach(p => {
+      if(p.points > max){
+        max = p.points;
+        gg = p.color;
+      }
+    });
+    alert(gg+" a gagné le jeu");
     return;
   }
   console.log("niveau suivant",numLevel);
