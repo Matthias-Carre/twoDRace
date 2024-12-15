@@ -64,7 +64,7 @@ la classe Levels contient tous les attributs des Level
 - `draw()` qui sert afficher les obstacles sur le canvas
 
 ## Main
-Le fichier `Main.js` est un peu trop charger en fonction, il pourait être allégé en optimisant la répartition des fonctions dans d'autres fichier.
+Le fichier `Main.js` est un peu trop chargé en fonction, il pourait être allégé en optimisant la répartition des fonctions dans d'autres fichiers.
 
 ### Fonctions
 - `init()` initialise le canvas au chargement de la page.
