@@ -22,7 +22,7 @@ Joueur 4 = T G F H
 ### Bonus/Malus :
    Cyan : Commandes inversées pour les autres joueurs\
    Jaune : Bonus de vitesse\
-   Violet : Ralenti les autres joueurs\
+   Violet : Ralenti les autres joueurs
 
 # Problèmes & Solutions
 ## Collision
@@ -59,7 +59,7 @@ la classe Obstacles contient tous les attributs des Obstacles
 - `collisionPlayer()` qui permet de gérer les collisions avec entres les obstacles et les joueurs
 
 ## Classe Level
-la classe Level contient tous les attributs des Level\
+la classe Level contient tous les attributs des Level
 ### Méthodes :
 - `draw()` qui sert afficher les obstacles sur le canvas
 
