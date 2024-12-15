@@ -35,6 +35,7 @@ Nous avons utiliser `export default class "NomClass"` pour permettre l'utilisati
 
 ## Classe Players
 la classe Players contient :
+
     - tous les attributs des joueurs
     - les méthodes get et set afin de récupérer et définir les attributs des joueurs
     - une méthodes :
@@ -44,6 +45,7 @@ la classe Players contient :
 
 ## Classe Obstacles
 la classe Obstacles contient :
+
     - tous les attributs des Obstacles
     - une méthodes :
         - setMove() premettant de définir si un obstacle et mobile ou non
@@ -52,5 +54,6 @@ la classe Obstacles contient :
 
 ## Classe Level
 la classe Level contient :
+
     - tous les attributs des Level
     - une méthodes draw() qui sert afficher les obstacles sur le canvas
