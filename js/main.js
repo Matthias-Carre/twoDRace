@@ -8,6 +8,7 @@ let players = [];
 let level;
 let numLevel = 1;
 let keys = {};
+let countdown;
 
 let isQwerty = true;
 
@@ -27,13 +28,10 @@ function init() {
   ctx.strokeRect(0, 0, w, h);
   players[0] = new Player("red", 10, 45, 25, 25);
 
-
   //level1 = new Level(await loadLevel(), []);
   //console.log("les obstacles ici",level1.obstacles);
   //let obs1 = new Obstacle(100, 100, { x: 100, y: 100 }, "red");
   //obs1.setMove(true);
-
-  
 
   level = new Level([], []);
 
@@ -44,8 +42,6 @@ function init() {
   window.addEventListener("keyup", function (e) {
     keys[e.key] = false;
   });
-
-
   //move();
 }
 
@@ -54,7 +50,6 @@ async function startGame(){
   console.log("nombre de joueur",nbjoueur);
  
   //gestion du type de clavier
-
   if(document.querySelector('input[name="keyLayout"]:checked').value == 1){
     isQwerty = false;
   }
@@ -85,9 +80,25 @@ async function startGame(){
 
   numLevel = 1; 
   draw();
-
-  movePlayer();
+  decompte(5);
 }
+ 
+function decompte(dcpt)
+{
+  console.log(dcpt);
+  if(dcpt < 0){
+    movePlayer();
+    return 0;
+  }else{
+    var affiche = 'Timer : '+dcpt+'s';
+    document.getElementById('timer').innerHTML = affiche;
+    return setTimeout(() => {
+      decompte(dcpt-1);
+    }, 1000);
+  }
+}
+ 
+
 
 function draw() {
   ctx.clearRect(0, 0, w, h);
