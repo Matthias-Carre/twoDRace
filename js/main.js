@@ -75,7 +75,7 @@ async function startGame(){
 
   let BoostSpeed = new Obstacle(100, 100, { x: 100, y: 100 }, "#00FFFF");
   BoostSpeed.isBonnus = true;
-  level = new Level(await loadLevel(20), []);
+  level = new Level(await loadLevel(1), []);
 
   numLevel = 1; 
   draw();
