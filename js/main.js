@@ -1,392 +1,79 @@
-import Player from './Player.js';
-import Obstacle from './Obstacle.js';
-import Level from './Level.js';
-window.onload = init;
+# Jeu JavaScript 2D_Race
+Projet de jeu JavaScript pour l'UE d'introduction au JavaScript Master 1 Informatique Université Côte d'Azur
 
-let canvas, ctx, w, h;
-let players = [];
-let level;
-let numLevel = 1;
-let keys = {};
-let countdown;
+Auteurs: Matthias Carré & Anthony Vasta
 
-let pause=false;
-let arrivee = [];
+# Gameplays
 
-let isQwerty = true;
+## Commandes
 
-function init() {
-  console.log("page chargée");
+### Déplacement :
+Joueur 1 = ↑ ← ↓ →\
+Joueur 2 = Z Q S D / W A S D\
+Joueur 3 = I K J I\
+Joueur 4 = T G F H
 
-  canvas = document.querySelector("#gameCanvas");
-  let depart = document.querySelector("#auazard");
-  depart.addEventListener("click", startGame);
-  w = canvas.width;
-  h = canvas.height;
+## Code couleur
 
-  ctx = canvas.getContext('2d');
+### Bloc :
+   Vert : Ligne d'arrivée\
+   Rouge : Retour au point de départ
 
-  ctx.strokeStyle = 'black';
-  ctx.lineWidth = 5;
-  ctx.strokeRect(0, 0, w, h);
-  players[0] = new Player("red", 10, 45, 25, 25);
+### Bonus/Malus :
+   Cyan : Commandes inversées pour les autres joueurs\
+   Jaune : Bonus de vitesse\
+   Violet : Ralenti les autres joueurs\
 
+# Problèmes & Solutions
+## Collision
+### Collision entre joueurs
+Les joueurs ne pouvaient pas tous se pousser entre eux car nous ne verrifions pas tous les joueurs, nous avons donc implémenté 2 boucles imbriquées pour vérifié que tout les joueurs puisse se pousser entre eux.
 
+### Objet mouvant
+Lorsque que 2 objets mouvent se rencontre avec un joueur au milieu, le joueur traverse les objets mouvants, idem lorsque le joueur se fait bloquer contre un mur par un de ces objets.
 
-  canvas.addEventListener('mousemove', function(event) {
-    const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    console.log(`Mouse position: x=${x}, y=${y}`);
-  });
-  //level1 = new Level(await loadLevel(), []);
-  //console.log("les obstacles ici",level1.obstacles);
-  //let obs1 = new Obstacle(100, 100, { x: 100, y: 100 }, "red");
-  //obs1.setMove(true);
+### Décompte
+Le fonction permettant de faire le décompte au début de chaque niveau ne fonctionnait pas à cause de la fonction `setInterval` que nous n'avons pas réussi à faire fonctionné, nous avons donc réarrangé le code et utilisé la fonction `setTimout()`.
 
-  level = new Level([], []);
+### le Main
+Le fichier `Main.js` est un peu trop charger en fonction, il pourait être allégé en optimisant la répartition des fonctions dans d'autres fichier.
 
-  window.addEventListener("keydown", function (e) {
-    keys[e.key] = true;
-  });
-  window.addEventListener("keyup", function (e) {
-    keys[e.key] = false;
-  });
-  //move();
-}
+# Conception
+Pour la conception du jeu, nous avons créée 3 classes, Players, Levels et Obstacles qui ont chacune leurs propre fichier.
+Nous avons utiliser `export default class "NomClass"` pour permettre l'utilisation de ces dernières dans les autres fichiers.\
+Nous aurions souhaité faire de l'héritage en créant une classe Objets, puis en faire dériver les classes Obstacles et Bonus/Malus mais l'idée s'est perdu car nous avons oublié.
+## Classe Players
+la classe Players contient :
 
-async function startGame(){
-  let nbjoueur = document.querySelector('input[name="numPlayers"]:checked').value;
- 
-  //gestion du type de clavier
-  if(document.querySelector('input[name="keyLayout"]:checked').value == 1){
-    isQwerty = false;
-  }
-  if(nbjoueur >= 1){
-    players[0] = new Player("red", 10, 5, 25, 25);
-  }
-  if(nbjoueur >= 2){
-    players[1] = new Player("blue", 10, 40, 25, 25);
-  }
-  if(nbjoueur >= 3){
-    players[2] = new Player("lightgreen", 10, 75, 25, 25);
+- tous les attributs des joueurs
+- les méthodes get et set afin de récupérer et définir les attributs des joueurs
+- une méthodes :
+    - `draw()` pour afficher les joueurs sur le canvas
+    - `collidesWith()` qui permet de gérer les collisions avec les autres joueurs
+    - `rollback()` qui permet de retourner à la position précédente
 
-  }
-  if(nbjoueur >= 4){
-    players[3] = new Player("yellow", 10, 110, 25, 25);
+## Classe Obstacles
+la classe Obstacles contient :
+- tous les attributs des Obstacles
+- une méthodes :
+    - `setMove()` premettant de définir si un obstacle et mobile ou non
+    - `draw()` qui sert afficher les obstacles sur le canvas
+    - `collisionPlayer()` qui permet de gérer les collisions avec entres les obstacles et les joueurs
 
-  }
-  document.querySelector('#gameForm').style.display = 'none';
-  document.querySelector('#layout').style.display = 'none';
-  document.querySelector('#gameCanvas').hidden = false;
-  //level = new Level(await loadLevel(1), []);
+## Classe Level
+la classe Level contient :
+- tous les attributs des Level
+- une méthodes draw() qui sert afficher les obstacles sur le canvas
 
-  let BoostSpeed = new Obstacle(100, 100, { x: 100, y: 100 }, "#00FFFF");
-  BoostSpeed.isBonnus = true;
-  level = new Level(await loadLevel(7), []);
-
-  numLevel = 1; 
-  draw();
-  decompte(5);
-}
- 
-function decompte(dcpt)
-{
-  if(dcpt < 0){
-    movePlayer();
-    return 0;
-  }else{
-    var affiche = 'Timer : '+dcpt+'s';
-    document.getElementById('timer').innerHTML = affiche;
-    return setTimeout(() => {decompte(dcpt-1);}, 1000);
-  }
-}
- 
-
-
-function draw() {
-
-  ctx.clearRect(0, 0, w, h);
-  
-  playersCollision();
-  obstacleCollision();
-
-  level.draw(ctx);
-
-  players.forEach(player => {
-    if (arrivee.includes(player)) {
-      return;
-    }
-    player.draw(ctx);
-  });
-  
-  
-}
-
-function playersCollision() {
-  players.forEach(playerA => {
-    if (arrivee.includes(playerA)) {
-      return;
-    }
-    players.forEach(playerB => {
-      if (arrivee.includes(playerB)) {
-        return;
-      }
-      //colision au bourd du canvas
-      if (playerA.x_axis < 0) {
-        playerA.setXaxis(0);
-      }else if (playerA.x_axis > w - playerA.width) {
-        playerA.setXaxis(w - playerA.width);
-      }
-      if (playerA.y_axis < 0) {
-        playerA.setYaxis(0);
-      }else if (playerA.y_axis > h - playerA.height) {
-        playerA.setYaxis(h - playerA.height);
-      }
-      if (playerA !== playerB && playerA.collidesWith(playerB)) {
-        //playerA.rollback();
-        if (Math.abs(playerA.x_axis - playerB.x_axis) > Math.abs(playerA.y_axis - playerB.y_axis)) {
-
-          if (playerA.x_axis > playerB.x_axis) {
-            //playerB.isCloinding = true;
-            playerB.setXaxis(playerB.x_axis - 5);
-            playerA.setXaxis(playerA.x_axis + 5);
-          } else if (playerA.x_axis < playerB.x_axis) {
-            //playerB.isCloinding = true;
-            playerB.setXaxis(playerB.x_axis + 5);
-            playerA.setXaxis(playerA.x_axis - 5);
-          }
-        } else {
-          if (playerA.y_axis > playerB.y_axis) {
-            //playerB.isCloinding = true;
-            playerB.setYaxis(playerB.y_axis - 5);
-            playerA.setYaxis(playerA.y_axis + 5);
-          } else if (playerA.y_axis < playerB.y_axis) {
-            //playerB.isCloinding = true;
-            playerB.setYaxis(playerB.y_axis + 5);
-            playerA.setYaxis(playerA.y_axis - 5);
-          }
-        }
-      } else {
-        //player.rollback();
-      }
-    });
-  });
-}
-function obstacleCollision() {
-  level.obstacles.forEach(obstacle => {
-    players.forEach(player => {
-      if (arrivee.includes(player)) {
-        return;
-      }
-      if (obstacle.colisionPlayer(player)) {
-        if(obstacle.color=='#FFFFFF'){return;}
-        if (obstacle.color === '#FF0000'){ // rouge
-          player.setXaxis(player.origine.x);
-          player.setYaxis(player.origine.y);
-          return;
-        }
-
-        if(obstacle.color === '#FF00FF'){ // violet
-          player.setPlayerSpeed(2);
-          obstacle.color = '#FFFFFF';
-          setTimeout(() => {
-            player.setPlayerSpeed(5);
-          }, 1000);
-          return;
-        }
-
-        if(obstacle.color === '#00FFFF'){ // cyan
-          obstacle.color = '#FFFFFF';
-          players.forEach(p => {
-            if(p !== player){
-              p.reverse = true;
-            }
-          }); 
-          setTimeout(() => {
-            players.forEach(p => {
-              p.reverse = false;
-            });
-          }, 4000); 
-        }
-
-        if (obstacle.color === '#00FF00'){ // vert
-          arrivee.push(player);
-          console.log(player.points + " est arrivé");
-          player.points += 5 - arrivee.length ;
-          console.log("point de " + player.color + " : " + player.points);
-          document.getElementById('score'+player.color).innerHTML = player.points;
-
-          if(arrivee.length === players.length){
-            //ICI MATTHIAS LA ICI COUCOU SALUT
-            nextLevel();
-          }
-          //nextLevel();
-        }
-
-        if(obstacle.color === '#FFFF00'){ // jaune
-          player.setPlayerSpeed(8);
-          obstacle.color = '#FFFFFF';
-          setTimeout(() => {
-            player.setPlayerSpeed(5);
-          }, 1000);
-          return;
-        }
-        //on peut check la direct pour pousser comme il faut tkt
-        if (obstacle.move) {
-          if(obstacle.UpDown){
-            if (obstacle.position.y > player.y_axis) {
-              player.isCloinding = true;
-              player.setYaxis(player.y_axis - 6);
-            } else {
-              player.isCloinding = true;
-              player.setYaxis(player.y_axis + 6);
-            }
-          }else{
-            if (obstacle.position.x > player.x_axis) {
-              player.isCloinding = true;
-              player.setXaxis(player.x_axis - 6);
-            } else {
-              player.isCloinding = true;
-              player.setXaxis(player.x_axis + 6);
-            }
-          }
-          
-        } else {
-          player.rollback();
-        }
-      }
-    });
-  });
-}
-
-function playersMovement(haut, bas, gauche, droite, player) {
-
-
-  if (player.isCloinding) {
-    player.isCloinding = false;
-    return;
-  }
-  if(player.reverse){
-    console.log(player.color,' ',haut,bas);
-    let tmp = haut;
-    haut = bas;
-    bas = tmp;
-
-    tmp = gauche;
-    gauche = droite;
-    droite = tmp;
-    console.log(haut,bas);
-
-  }
-  if (keys[haut] && keys[droite]) {
-    player.setXaxis(player.x_axis + player.speed / Math.sqrt(2));
-    player.setYaxis(player.y_axis - player.speed / Math.sqrt(2));
-  } else if (keys[haut] && keys[gauche]) {
-    player.setYaxis(player.y_axis - player.speed / Math.sqrt(2));
-    player.setXaxis(player.x_axis - player.speed / Math.sqrt(2));
-  } else if (keys[bas] && keys[droite]) {
-    player.setYaxis(player.y_axis + player.speed / Math.sqrt(2));
-    player.setXaxis(player.x_axis + player.speed / Math.sqrt(2));
-
-  } else if (keys[bas] && keys[gauche]) {
-    player.setYaxis(player.y_axis + player.speed / Math.sqrt(2));
-    player.setXaxis(player.x_axis - player.speed / Math.sqrt(2));
-
-  } else {
-    if (keys[haut]) {
-      player.setYaxis(player.y_axis - player.speed);
-    }
-    if (keys[bas]) {
-      player.setYaxis(player.y_axis + player.speed);
-
-    }
-    if (keys[droite]) {
-      player.setXaxis(player.x_axis + player.speed);
-    }
-    if (keys[gauche]) {
-      player.setXaxis(player.x_axis - player.speed);
-    }
-  }
-}
-
-function movePlayer() {
-  console.log
-  if(pause){
-    pause = false;
-    return;
-  }
-  if(players.length >= 1){
-    playersMovement('ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', players[0]);
-  }
-  if(players.length >= 2){
-    if(isQwerty){
-      playersMovement('w', 's', 'a', 'd', players[1]);
-    }else{
-      playersMovement('z', 's', 'q', 'd', players[1]);
-    }
-  }
-  if(players.length >= 3){
-    playersMovement('i', 'k', 'j', 'l', players[2]);
-  }
-  if(players.length >= 4){
-    playersMovement('t', 'g', 'f', 'h', players[3]);
-  }
-  draw();
-  requestAnimationFrame(movePlayer);
-}
-
-async function loadLevel(num) {
-  let obstacles = [];
-  try {
-    let path = './maps/map'+num+'.json';
-    const response = await fetch(path);
-    console.log("path",path);
-    const data = await response.json();
-    console.log(data);
-    console.log(data.data);
-    data.data.forEach(obstacle => {
-      obstacles.push(new Obstacle(obstacle.x, obstacle.y, obstacle.position, obstacle.color));
-    });
-  } catch (error) {
-    console.error('Erreur lors de la récupération du JSON:', error);
-  }
-  let mur1;
-  let mur2;
-  switch(num){
-    
-    case 6:
-      mur1 = new Obstacle(120, 50, { x: 0, y: 100 }, "#000000");
-      mur1.setMove(true, { x: 200, y: 300 });
-      obstacles.push(mur1);
-      mur2 = new Obstacle(25, 85, { x: 250 , y: 475 }, "#000000");
-      mur2.setMove(false, { x: 400, y: 400 });
-      obstacles.push(mur2);
-      return obstacles;
-    case 7:
-      mur1 = new Obstacle(320,25,{x:80,y:450},"#000000");
-      mur1.setMove(true,{x:320,y:800});
-      obstacles.push(mur1);
-      mur2 = new Obstacle(215,25,{x:430,y:180},"#000000");
-      mur2.setMove(true,{x:645,y:460});
-      obstacles.push(mur2);
-
-  }
-  return obstacles;
-}
-
-async function nextLevel(){
-  
-  arrivee = [];
-  numLevel++;
-  console.log("niveau suivant",numLevel);
-  //reset la possition de tous pour eviter de spazn syr la fin bolos
-  //on le fait deux fois pour vider le buffer 
-  players.forEach(p => {
-    p.resetPos();
-  });
-  pause = true;
-  level = new Level(await loadLevel(numLevel), []);
-  decompte(3);
-  draw();
-}
+## Main
+### fonction
+`init()` initialise le canvas au chargement de la page.\
+`startGame()` démarre la partie lorsque le formulaire permettant de choisir le nombre de joueur et le langue du clavier est envoyé.\
+`countdown()` lance un décompte avant le début de chaque niveau, les joueurs ne peuvent pas bouger jusqu'a la fin de ce dernier.\
+`draw()` afficher les joueurs et les obstacles sur le canvas.\
+`playersCollision()` gère les collision entre les joueurs.\
+`obstalcleCollision()` gère les collision entre les obstacles et les joueurs.\
+`playersMovement()` défini les mouvements des joueurs.\
+`movePlayer()` attributs les commandes aux joueurs.\
+`loadLevel()` charge les différents niveaux.\
+`nextLevel()` charge le niveau suivant.\
