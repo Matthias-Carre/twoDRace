@@ -66,6 +66,8 @@ la classe Level contient :
 - une méthodes draw() qui sert afficher les obstacles sur le canvas
 
 ## Main
+Le fichier `Main.js` est un peu trop charger en fonction, il pourait être allégé en optimisant la répartition des fonctions dans d'autres fichier.
+
 ### Fonctions
 `init()` initialise le canvas au chargement de la page.\
 `startGame()` démarre la partie lorsque le formulaire permettant de choisir le nombre de joueur et le langue du clavier est envoyé.\
