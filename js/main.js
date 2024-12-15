@@ -8,7 +8,7 @@ let players = [];
 let level;
 let numLevel = 1;
 let keys = {};
-let countdown;
+
 
 let pause=false;
 let arrivee = [];
@@ -83,14 +83,14 @@ async function startGame(){
 
   let BoostSpeed = new Obstacle(100, 100, { x: 100, y: 100 }, "#00FFFF");
   BoostSpeed.isBonnus = true;
-  level = new Level(await loadLevel(7), []);
+  level = new Level(await loadLevel(18), []);
 
   numLevel = 1; 
   draw();
-  decompte(5);
+  countdown(5);
 }
  
-function decompte(dcpt)
+function countdown(dcpt)
 {
   if(dcpt < 0){
     movePlayer();
@@ -98,7 +98,7 @@ function decompte(dcpt)
   }else{
     var affiche = 'Timer : '+dcpt+'s';
     document.getElementById('timer').innerHTML = affiche;
-    return setTimeout(() => {decompte(dcpt-1);}, 1000);
+    return setTimeout(() => {countdown(dcpt-1);}, 1000);
   }
 }
  
@@ -353,6 +353,7 @@ async function loadLevel(num) {
   }
   let mur1;
   let mur2;
+  let mur3;
   switch(num){
     
     case 6:
@@ -370,8 +371,58 @@ async function loadLevel(num) {
       mur2 = new Obstacle(215,25,{x:430,y:180},"#000000");
       mur2.setMove(true,{x:645,y:460});
       obstacles.push(mur2);
-
-  }
+      return obstacles;
+    case 8:
+      mur1 = new Obstacle(25, 260, { x: 360, y: 0 }, "#000000");
+      mur1.setMove(false, { x: 560, y: 260 });
+      obstacles.push(mur1);
+      mur2 = new Obstacle(25, 200, { x: 380, y: 490 }, "#000000");
+      mur2.setMove(false, { x: 580, y: 200 });
+      obstacles.push(mur2);
+      return obstacles;
+    case 9:
+      mur1 = new Obstacle(25,160,{x:160,y:540},"#000000");
+      mur1.setMove(false,{x:440,y:160});
+      obstacles.push(mur1);
+      mur2 = new Obstacle(25,160,{x:440,y:540},"#000000");
+      mur2.setMove(false,{x:720,y:160});
+      obstacles.push(mur2);
+      return obstacles;
+    case 15:
+      mur1 = new Obstacle(25, 300, { x: 0, y: 200 }, "#FF0000");
+      mur1.setMove(false, { x: 800, y: 200 });
+      obstacles.push(mur1);
+      return obstacles;
+    case 16:
+      mur1 = new Obstacle(120,20,{x:360,y:240},"#FF0000");
+      mur1.setMove(true,{x:360,y:485});
+      obstacles.push(mur1);
+      mur2 = new Obstacle(120,20,{x:360,y:485},"#FF0000");
+      mur2.setMove(true,{x:360,y:730});
+      obstacles.push(mur2);
+      return obstacles;
+    case 17:
+      mur1 = new Obstacle(20,235,{x:75,y:285},"#FF0000");
+      mur1.setMove(false,{x:680,y:285});
+      obstacles.push(mur1);
+      mur2 = new Obstacle(155,20,{x:325,y:160},"#FF0000");
+      mur2.setMove(true,{x:325,y:640});
+      obstacles.push(mur2);
+      return obstacles;
+    case 18:
+      mur1 = new Obstacle(40, 40, { x: 0, y: 200 }, "#FF0000");
+      mur1.setMove(false, { x: 800, y: 200 });
+      obstacles.push(mur1);
+      mur2 = new Obstacle(40, 40, { x: 0, y: 400 }, "#FF0000");
+      mur2.setMove(false, { x: 800, y: 400 });
+      obstacles.push(mur2);
+      mur3 = new Obstacle(40, 40, { x: 0, y: 680 }, "#FF0000");
+      mur3.setMove(false, { x: 800, y: 680 });
+      obstacles.push(mur3);
+      return obstacles;
+    case 19:
+      
+    }
   return obstacles;
 }
 
@@ -387,6 +438,6 @@ async function nextLevel(){
   });
   pause = true;
   level = new Level(await loadLevel(numLevel), []);
-  decompte(3);
+  countdown(3);
   draw();
 }

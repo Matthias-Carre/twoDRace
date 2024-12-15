@@ -31,11 +31,7 @@ def pngToJson(n):
     file.close()
 
 
-pngToJson(1)
-pngToJson(2)
-pngToJson(3)
-pngToJson(4)
-pngToJson(5)
-pngToJson(6)
-pngToJson(7)
+
+pngToJson(18)
+
 #print('{ "x": 100, "y": 100, "position": { "x": 200, "y": 200 }, "color": "#000000" }')
