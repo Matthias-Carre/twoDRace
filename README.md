@@ -42,8 +42,8 @@ Lorsque que 2 objets mouvent se rencontre avec un joueur au milieu, le joueur tr
 Le fonction permettant de faire le décompte au début de chaque niveau ne fonctionnait pas à cause de la fonction `setInterval` que nous n'avons pas réussi à faire fonctionné, nous avons donc réarrangé le code et utilisé la fonction `setTimout()`.
 
 # Conception
-Pour la conception du jeu, nous avons créée 3 classes, Players, Levels et Obstacles qui ont chacune leurs propre fichier.
-Nous avons utiliser `export default class "NomClass"` pour permettre l'utilisation de ces dernières dans les autres fichiers.\
+Pour la conception du jeu, nous avons créée 3 classes, Players, Levels et Obstacles qui ont chacune leurs propre fichier.\
+Nous avons utiliser `export default class "NomClass"` pour permettre l'utilisation de ces dernières dans les autres fichiers.
 
 Nous aurions souhaité faire de l'héritage en créant une classe Objets, puis en faire dériver les classes Obstacles et Bonus/Malus mais l'idée s'est perdu car nous avons oublié.
 
