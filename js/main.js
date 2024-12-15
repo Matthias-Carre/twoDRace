@@ -51,6 +51,7 @@ function init() {
 
 async function startGame(){
   let nbjoueur = document.querySelector('input[name="numPlayers"]:checked').value;
+  console.log("nombre de joueur",nbjoueur);
  
   //gestion du type de clavier
 
@@ -96,10 +97,11 @@ function draw() {
   obstacleCollision();
 
   level.draw(ctx);
+
   players.forEach(player => {
     player.draw(ctx);
   });
-
+  
   
 }
 
@@ -158,8 +160,8 @@ function obstacleCollision() {
       if (obstacle.colisionPlayer(player)) {
         if(obstacle.color=='#FFFFFF'){return;}
         if (obstacle.color === '#FF0000'){ // rouge
-          player.setXaxis(player.orignie.x);
-          player.setYaxis(player.orignie.y);
+          player.setXaxis(player.origine.x);
+          player.setYaxis(player.origine.y);
           return;
         }
 

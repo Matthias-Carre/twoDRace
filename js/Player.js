@@ -2,10 +2,10 @@ export default class Player {
   constructor(color, x_axis, y_axis, width, height) {
     this.color = color;
 
-    this.orignie = {x:x_axis,y:y_axis};
+    this.origine = {x:x_axis,y:y_axis};
     //this.life = life;
-    //this.points = points;
-    //this.speed = speed;
+    this.points = 0;
+    this.speed = 5;
     this.x_axis = x_axis;
     this.y_axis = y_axis;
     this.previous_x_axis = x_axis;
@@ -14,6 +14,7 @@ export default class Player {
     this.height = height;
     this.isMoving = true;
     this.isCloinding = false;
+    this.reverse = false;
   }
   setOriginie(x,y){
     this.orignie.x = x;
@@ -55,6 +56,7 @@ export default class Player {
   }
   
   draw(ctx) {
+    console.log('drawing player',this.color,'at',this.x_axis,this.y_axis);
     ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.fillRect(this.x_axis, this.y_axis, this.width, this.height);
