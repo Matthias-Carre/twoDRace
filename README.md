@@ -25,9 +25,15 @@ Joueur 4 = T F G H
    Violet : Ralenti les autres joueurs
 
 # Problèmes & Solutions
+
 ## Collision
+
 ### Collision entre joueurs
 Les joueurs ne pouvaient pas tous se pousser entre eux car nous ne verrifions pas tous les joueurs, nous avons donc implémenté 2 boucles imbriquées pour vérifié que tout les joueurs puisse se pousser entre eux.
+
+### Collision entre joueurs et obstacles
+Lorsqu'un joueur pousse un autre joueur contre un obstacle, le joueur traverse l'obstacle.\
+Nous n'avons pas trouvé de solutions pour régler le problème.
 
 ### Objet mouvant
 Lorsque que 2 objets mouvent se rencontre avec un joueur au milieu, le joueur traverse les objets mouvants, idem lorsque le joueur se fait bloquer contre un mur par un de ces objets.
