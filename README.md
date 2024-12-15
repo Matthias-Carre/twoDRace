@@ -9,8 +9,11 @@ Auteurs: Matthias Carré & Anthony Vasta
 
 ### Déplacement :
     Joueur 1 = ↑ ← ↓ →
+    
     Joueur 2 = Z Q S D / W A S D
+    
     Joueur 3 = I K J I
+    
     Joueur 4 = T G F H
 
 ## Code couleur
