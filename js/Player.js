@@ -3,7 +3,6 @@ export default class Player {
     this.color = color;
 
     this.origine = {x:x_axis,y:y_axis};
-    //this.life = life;
     this.points = 0;
     this.speed = 5;
     this.x_axis = x_axis;
