@@ -17,11 +17,14 @@ Joueur 4 = T G F H
 
 ### Code couleur bloc :
    Vert : Ligne d'arrivée
+   
    Rouge : Retour au point de départ
 
 ### Code couleur Bonus/Malus :
    Cyan : Commandes inversées pour les autres joueurs
+   
    Jaune : Bonus de vitesse
+   
    Violet : Ralenti les autres joueurs
 
 # Problèmes & Solutions
