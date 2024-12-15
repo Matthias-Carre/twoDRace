@@ -85,7 +85,6 @@ async function startGame(){
  
 function decompte(dcpt)
 {
-  console.log(dcpt);
   if(dcpt < 0){
     movePlayer();
     return 0;
