@@ -1,7 +1,6 @@
 export default class Player {  
   constructor(color, x_axis, y_axis, width, height) {
     this.color = color;
-
     this.origine = {x:x_axis,y:y_axis};
     this.points = 0;
     this.speed = 5;
