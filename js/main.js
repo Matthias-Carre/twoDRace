@@ -91,9 +91,7 @@ function decompte(dcpt)
   }else{
     var affiche = 'Timer : '+dcpt+'s';
     document.getElementById('timer').innerHTML = affiche;
-    return setTimeout(() => {
-      decompte(dcpt-1);
-    }, 1000);
+    return setTimeout(() => {decompte(dcpt-1);}, 1000);
   }
 }
  
