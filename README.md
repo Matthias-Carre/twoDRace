@@ -45,7 +45,7 @@ Nous avons utiliser `export default class "NomClass"` pour permettre l'utilisati
 Nous aurions souhaité faire de l'héritage en créant une classe Objets, puis en faire dériver les classes Obstacles et Bonus/Malus mais l'idée s'est perdu car nous avons oublié.
 
 ## Génération de niveaux
-Les niveaux sont dessinés sur paint3D sur une grille 20px*20px et transformés en `.json` grace à un script python.\
+Les niveaux sont dessinés sur paint3D sur une grille 20px*20px et transformés en `.json` via un script python.\
 Ils sont ensuite générés dans le jeu à partir de ce `.json`.
 
 ## Classe Players
