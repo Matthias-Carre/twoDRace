@@ -20,11 +20,14 @@ Auteurs: Matthias Carré & Anthony Vasta
 
 ### Bloc :
    Vert : Ligne d'arrivée
+   
    Rouge : Retour au point de départ
 
 ### Bonus/Malus :
    Cyan : Commandes inversées pour les autres joueurs
+   
    Jaune : Bonus de vitesse
+   
    Violet : Ralenti les autres joueurs
    
 # Problèmes & Solutions
